@@ -1,4 +1,5 @@
 <?php
+
 /**
  * UnderStrap functions and definitions
  *
@@ -6,7 +7,7 @@
  */
 
 // Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 
 $understrap_includes = array(
 	'/theme-settings.php',                  // Initialize theme default settings.
@@ -26,6 +27,16 @@ $understrap_includes = array(
 	'/deprecated.php',                      // Load deprecated functions.
 );
 
-foreach ( $understrap_includes as $file ) {
+foreach ($understrap_includes as $file) {
 	require_once get_template_directory() . '/inc' . $file;
 }
+function autolink_featured_images($html, $post_id, $post_image_id)
+{
+	if (!is_singular()) {
+		$html = '<a href="' . get_permalink($post_id) . '" title="' . esc_attr(get_the_title($post_id)) . '">' . $html . '</a>';
+		return $html;
+	} else {
+		return $html;
+	}
+}
+add_filter('post_thumbnail_html', 'autolink_featured_images', 10, 3);
